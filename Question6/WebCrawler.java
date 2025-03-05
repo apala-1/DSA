@@ -1,5 +1,3 @@
-package Question6;
-
 import java.io.*;
 import java.net.*;
 import java.util.*;

@@ -1,5 +1,3 @@
-package Question6;
-
 public class ThreadController {
     public static void main(String[] args) throws InterruptedException {
         int n = 6;  // Set the max number to be printed
