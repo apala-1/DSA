@@ -24,46 +24,56 @@ package Question3;
 import java.util.*;
 
 public class Question_Three_A {
+    // This function calculates the minimum cost that is needed to connect all the devices in the network
     public int minCost(int n, int[] modules, int[][] connections) {
-        // Priority queue for MST (cost, device)
+        // This priority queue helps in picking the device that has the minimum cost each time
         PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
         
-        // Initialize the priority queue with device installation costs
+        // First, we initialize the priority queue with the device installation costs
         for (int i = 0; i < n; i++) {
-            pq.offer(new int[]{modules[i], i});
+            pq.offer(new int[]{modules[i], i}); // This adds every device's cost and index
         }
         
-        // To track which devices have been visited (added to the network)
+        // This keeps track of which devices have been visited (added to the network)
         boolean[] visited = new boolean[n];
+
+        // This stores the total cost of connecting all the devices
         int totalCost = 0;
         
+        // While there are devices in the priority queue
         while (!pq.isEmpty()) {
+            // we poll the device with the minimum installation cost
             int[] current = pq.poll();
-            int cost = current[0];
-            int device = current[1];
+            int cost = current[0]; // Cost needed to install the device
+            int device = current[1]; // Index of the device
             
-            // Skip this device if it is already visited
+            // Skip this device if it is has been visited already
             if (visited[device]) continue;
             
-            // Add the cost of this device's module if not visited
+            // Add the cost of this device in the total cost, if it hasn't been visited
             totalCost += cost;
+            // then mark it as visited
             visited[device] = true;
             
-            // Look for connections and add them to the queue
+            // Now we look for other connections and add them to the priorty queue
             for (int[] connection : connections) {
+                // here, we get the devices and the connection  cost from the connection array
                 int device1 = connection[0] - 1;
                 int device2 = connection[1] - 1;
+                // This is the connection cost
                 int connectionCost = connection[2];
                 
+                // if device 1 is not visited, then we add it to the priority queue along with the connection cost
                 if (!visited[device1]) {
                     pq.offer(new int[]{connectionCost, device1});
                 }
+                // if device 1 is not visited, then we add it to the priority queue along with the connection cost
                 if (!visited[device2]) {
                     pq.offer(new int[]{connectionCost, device2});
                 }
             }
         }
-        
+        // This returns the total cost required to connect all the devices
         return totalCost;
     }
     
@@ -71,12 +81,13 @@ public class Question_Three_A {
         Question_Three_A sol = new Question_Three_A();
         
         int n = 3;
-        int[] modules = {1, 2, 2};
-        int[][] connections = {
+        int[] modules = {1, 2, 2}; // These are the installation costs for the devices
+        int[][] connections = { // These are the connection details which represent (device1, device2, connection cost)
             {1, 2, 1},
             {2, 3, 1}
         };
         
+        // We can call the function and find out the minimum cost needed to connect all the devices
         System.out.println(sol.minCost(n, modules, connections));  // Output: 3
     }
 }
